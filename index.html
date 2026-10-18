@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohamed Ali Lhioui</title>
+<meta name="description" content="Portfolio de Mohamed Ali Lhioui, étudiant ingénieur en Génie Électrique & Automatique (ENIG) : systèmes embarqués, robotique ROS2, IoT et instrumentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: the portfolio is read as a component datasheet. A spec strip, a pinout hero,
+   a logic-analyzer timeline, then "application circuits". Light = printed sheet, dark = bare PCB. */
+:root {
+  --bg: #F1F3F0;
+  --panel: #FFFFFF;
+  --ink: #15201B;
+  --muted: #56645D;
+  --rule: #CBD3CD;
+  --copper: #9E5420;
+  --copper-soft: #E9D3C1;
+  --led: #1E7A4C;
+  --chip: #1A2420;
+  --chip-ink: #E6ECE7;
+  --lead: #9AA6A0;
+  --grid: rgba(21, 32, 27, .07);
+
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  --s-1: .8125rem; --s0: 1rem; --s1: 1.25rem; --s2: 1.75rem; --s3: 2.5rem;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --wrap: 1180px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1511; --panel: #101D17; --ink: #E4EBE6; --muted: #93A69C; --rule: #22362C;
+    --copper: #DB9256; --copper-soft: #3A2A1C; --led: #4CC38A; --chip: #1C2A23; --chip-ink: #E4EBE6;
+    --lead: #C7A27E; --grid: rgba(219, 146, 86, .07); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1511; --panel: #101D17; --ink: #E4EBE6; --muted: #93A69C; --rule: #22362C;
+  --copper: #DB9256; --copper-soft: #3A2A1C; --led: #4CC38A; --chip: #1C2A23; --chip-ink: #E4EBE6;
+  --lead: #C7A27E; --grid: rgba(219, 146, 86, .07); color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 var(--s0)/1.6 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--copper); outline-offset: 3px; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-left: var(--gutter); padding-right: var(--gutter-r); }
+.mono { font-family: var(--f-mono); }
+.label {
+  font: 500 .72rem/1.3 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+
+/* Top bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.topbar .wrap { display: flex; align-items: center; gap: 24px; min-height: 56px; }
+.brand { font: 800 1.05rem/1 var(--f-display); font-stretch: 75%; letter-spacing: .04em; text-decoration: none; text-transform: uppercase; }
+.brand span { color: var(--copper); }
+.nav { display: flex; gap: 20px; margin-left: auto; }
+.nav a { font: 500 .78rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding-block: 6px; }
+.nav a:hover { color: var(--ink); }
+.theme-btn {
+  font: 500 .72rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: 1px solid var(--rule); border-radius: 999px; padding: 7px 12px; cursor: pointer;
+}
+.theme-btn:hover { border-color: var(--copper); }
+@media (max-width: 760px) { .nav { display: none; } .theme-btn { margin-left: auto; } }
+
+/* Hero */
+.hero { position: relative; border-bottom: 1px solid var(--rule); overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(var(--grid) 1.2px, transparent 1.3px); background-size: 20px 20px;
+}
+.docstrip { position: relative; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; padding-block: 18px; border-bottom: 1px dashed var(--rule); }
+.hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: center; padding-block: 48px 56px; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); padding-block: 36px 40px; } }
+.hero h1 {
+  margin: 14px 0 18px; font-family: var(--f-display); font-weight: 850; font-stretch: 68%;
+  font-size: clamp(3.2rem, 9.5vw, 7.4rem); line-height: .86; letter-spacing: -.01em; text-transform: uppercase; text-wrap: balance;
+}
+.hero h1 .last { color: var(--copper); display: block; }
+.lead { font-size: var(--s1); line-height: 1.5; max-width: 34ch; margin: 0 0 26px; }
+.status {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 12px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--panel); font: 500 .82rem/1.3 var(--f-mono);
+}
+.led { width: 9px; height: 9px; border-radius: 50%; background: var(--led); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led) 22%, transparent); animation: blink 2.4s ease-in-out infinite; flex: none; }
+@keyframes blink { 50% { opacity: .35; } }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font: 600 .9rem/1 var(--f-body);
+  padding: 13px 18px; border-radius: 4px; text-decoration: none; border: 1px solid var(--ink); cursor: pointer;
+  background: transparent; color: var(--ink); transition: background .15s, color .15s, border-color .15s;
+}
+.btn.primary { background: var(--ink); color: var(--bg); }
+.btn:hover { border-color: var(--copper); background: var(--copper); color: var(--bg); }
+
+.pinout { margin: 0; }
+.pinout svg { display: block; width: 100%; max-width: 540px; height: auto; margin-inline: auto; overflow: visible; }
+.pin { cursor: default; outline: none; }
+.pin .leg { fill: var(--lead); transition: fill .15s; }
+.pin .trace { stroke: var(--rule); stroke-width: 1.5; transition: stroke .15s; }
+.pin .name { fill: var(--ink); font: 500 13px var(--f-mono); transition: fill .15s; }
+.pin .num { fill: var(--chip-ink); opacity: .55; font: 500 9px var(--f-mono); }
+.pin:hover .leg, .pin:focus .leg, .pin.on .leg { fill: var(--copper); }
+.pin:hover .trace, .pin:focus .trace, .pin.on .trace { stroke: var(--copper); }
+.pin:hover .name, .pin:focus .name, .pin.on .name { fill: var(--copper); }
+.pin:focus-visible .name { text-decoration: underline; }
+.pin .leg { animation: wake .5s ease-out both; animation-delay: var(--d, 0s); }
+@keyframes wake { 0% { fill: var(--copper); } 100% { fill: var(--lead); } }
+.readout {
+  margin: 14px auto 0; max-width: 540px; display: flex; gap: 12px; align-items: baseline; justify-content: center; flex-wrap: wrap;
+  font: 500 .8rem/1.4 var(--f-mono); color: var(--muted); min-height: 1.4em; text-align: center;
+}
+.readout b { color: var(--copper); font-weight: 600; }
+
+/* Sections */
+section.block { padding-block: 72px; border-bottom: 1px solid var(--rule); }
+.sec-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; align-items: baseline; margin-bottom: 36px; }
+.sec-num { font: 600 .85rem/1 var(--f-mono); color: var(--copper); }
+.sec-head h2 { margin: 0; font: 800 clamp(2rem, 4.6vw, 3.2rem)/1 var(--f-display); font-stretch: 72%; text-transform: uppercase; letter-spacing: .005em; text-wrap: balance; }
+.sec-head p { grid-column: 2; margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* Datasheet page one */
+.sheet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--rule); background: var(--panel); }
+.sheet > div { padding: 26px 26px 30px; min-width: 0; }
+.sheet > div + div { border-left: 1px solid var(--rule); }
+@media (max-width: 900px) { .sheet { grid-template-columns: minmax(0, 1fr); } .sheet > div + div { border-left: 0; border-top: 1px solid var(--rule); } }
+.sheet h3 { margin: 0 0 14px; font: 700 1.05rem/1.2 var(--f-display); font-stretch: 85%; text-transform: uppercase; letter-spacing: .04em; display: flex; gap: 10px; align-items: baseline; }
+.sheet h3 small { font: 500 .72rem var(--f-mono); color: var(--copper); letter-spacing: 0; }
+.ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.ticks li { padding-left: 18px; position: relative; }
+.ticks li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; background: var(--copper); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.sheet p { margin: 0 0 12px; max-width: 62ch; }
+.spec { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: .92rem; }
+.spec caption { text-align: left; padding-bottom: 10px; }
+.spec th, .spec td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.spec th { font: 500 .72rem/1.4 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: color-mix(in srgb, var(--panel) 50%, var(--bg)); width: 30%; }
+.spec td.val { font-family: var(--f-mono); font-size: .86rem; }
+.table-scroll { overflow-x: auto; }
+
+/* Logic analyzer */
+.analyzer { border: 1px solid var(--rule); background: var(--panel); }
+.an-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.an-scroll { overflow-x: auto; }
+.an-scroll svg { display: block; width: 100%; min-width: 680px; height: auto; touch-action: pan-x; }
+.an-readout { padding: 12px 16px; border-top: 1px solid var(--rule); font: 500 .82rem/1.5 var(--f-mono); color: var(--muted); min-height: 3.2em; }
+.an-readout b { color: var(--copper); font-weight: 600; }
+.wave { fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.wave.dash { stroke: var(--copper); stroke-dasharray: 5 4; }
+.wave.clk { stroke: var(--muted); stroke-width: 1.2; }
+.ch-label { fill: var(--muted); font: 500 11px var(--f-mono); letter-spacing: .08em; }
+.seg-label { fill: var(--ink); font: 600 11px var(--f-mono); }
+.seg-label.alt { fill: var(--copper); }
+.axis text { fill: var(--muted); font: 500 10.5px var(--f-mono); }
+.axis line { stroke: var(--rule); }
+.today line { stroke: var(--copper); stroke-width: 1.2; }
+.today text { fill: var(--copper); font: 600 10px var(--f-mono); letter-spacing: .08em; }
+.cursor { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 3; opacity: .55; }
+
+.roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+@media (max-width: 800px) { .roles { grid-template-columns: minmax(0, 1fr); } }
+.role { border-top: 2px solid var(--ink); padding-top: 18px; min-width: 0; }
+.role-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+.role h3 { margin: 8px 0 2px; font: 700 1.35rem/1.15 var(--f-display); font-stretch: 85%; }
+.role .org { color: var(--muted); margin: 0 0 14px; font-size: .92rem; }
+.role ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.role li::marker { color: var(--copper); }
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 36px; border: 1px solid var(--rule); }
+.edu > div { padding: 18px 20px; min-width: 0; }
+.edu > div + div { border-left: 1px solid var(--rule); }
+@media (max-width: 800px) { .edu { grid-template-columns: minmax(0, 1fr); } .edu > div + div { border-left: 0; border-top: 1px solid var(--rule); } }
+.edu h4 { margin: 6px 0 2px; font: 600 1rem/1.3 var(--f-body); }
+.edu p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+/* Projects */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.chip-btn {
+  font: 500 .78rem/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase;
+  padding: 9px 13px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer;
+}
+.chip-btn:hover { color: var(--ink); border-color: var(--ink); }
+.chip-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip-btn .n { opacity: .6; margin-left: 4px; }
+.projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 1000px) { .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .projects { grid-template-columns: minmax(0, 1fr); } }
+.card {
+  background: var(--panel); border: 1px solid var(--rule); padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  transition: border-color .15s, transform .15s;
+}
+.card:hover { border-color: var(--copper); transform: translateY(-2px); }
+.card-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.card h3 { margin: 0; font: 700 1.3rem/1.15 var(--f-display); font-stretch: 85%; text-wrap: balance; }
+.card p { margin: 0; color: var(--muted); font-size: .95rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.tag { font: 500 .72rem/1 var(--f-mono); padding: 6px 8px; border-radius: 3px; background: var(--copper-soft); color: var(--ink); }
+.card.feature { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 28px; padding: 0; }
+.card.feature .body { padding: 26px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card.feature h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.card.feature .viz { position: relative; background: var(--chip); min-height: 240px; border-left: 1px solid var(--rule); }
+.card.feature canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.viz-cap { position: absolute; left: 12px; bottom: 10px; font: 500 .68rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--chip-ink); opacity: .7; }
+@media (max-width: 760px) { .card.feature { grid-template-columns: minmax(0, 1fr); } .card.feature .viz { border-left: 0; border-top: 1px solid var(--rule); aspect-ratio: 5 / 3; max-width: 100%; min-height: 0; } }
+
+/* Skills */
+.skills-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 36px; }
+@media (max-width: 900px) { .skills-grid { grid-template-columns: minmax(0, 1fr); } }
+.skill-table { width: 100%; border-collapse: collapse; }
+.skill-table th, .skill-table td { text-align: left; padding: 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.skill-table th { font: 500 .72rem/1.4 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); width: 34%; padding-right: 16px; padding-top: 18px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font: 500 .82rem/1 var(--f-mono); padding: 7px 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--panel); }
+.side h3 { margin: 0 0 14px; font: 700 1.05rem/1.2 var(--f-display); font-stretch: 85%; text-transform: uppercase; letter-spacing: .04em; }
+.cefr { display: grid; gap: 14px; margin-bottom: 36px; }
+.cefr-row { display: grid; grid-template-columns: 82px minmax(0, 1fr) 54px; gap: 12px; align-items: center; }
+.cefr-row .lvl { font: 600 .82rem var(--f-mono); color: var(--copper); text-align: right; }
+.cells { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
+.cells i { height: 12px; background: var(--rule); }
+.cells i.on { background: var(--copper); }
+.scale { display: grid; grid-template-columns: 82px minmax(0, 1fr) 54px; gap: 12px; }
+.scale .cells i { background: none; height: auto; font: 500 .66rem var(--f-mono); font-style: normal; color: var(--muted); text-align: center; }
+.engage { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.engage li { border: 1px solid var(--rule); background: var(--panel); padding: 14px 16px; }
+.engage strong { display: block; font-weight: 600; }
+.engage span { color: var(--muted); font-size: .9rem; }
+
+/* Contact */
+.contact { padding-block: 80px; }
+.contact h2 { margin: 0 0 10px; font: 850 clamp(2.6rem, 8vw, 6rem)/.9 var(--f-display); font-stretch: 68%; text-transform: uppercase; text-wrap: balance; }
+.contact h2 span { color: var(--copper); }
+.contact .intro { color: var(--muted); max-width: 52ch; margin: 0 0 34px; font-size: var(--s1); line-height: 1.5; }
+.links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+@media (max-width: 700px) { .links { grid-template-columns: minmax(0, 1fr); } }
+.link-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 4px; border-bottom: 1px solid var(--rule); min-width: 0; }
+.link-row .k { flex: none; }
+.link-row .v { font: 500 1rem var(--f-mono); text-decoration: none; overflow-wrap: anywhere; text-align: right; }
+.link-row a.v:hover { color: var(--copper); }
+.copy { font: 500 .7rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 6px 8px; cursor: pointer; flex: none; }
+.copy:hover { color: var(--ink); border-color: var(--ink); }
+.v-group { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+footer { padding-block: 26px 36px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">M.A. <span>Lhioui</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#profil">Profil</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#projets">Projets</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Changer de thème">Thème</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="docstrip">
+        <span class="label">Fiche technique · MAL-27</span>
+        <span class="label">Génie Électrique &amp; Automatique</span>
+        <span class="label">Rév. 10/2026</span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <span class="label">Étudiant ingénieur · ENIG, Gabès</span>
+          <h1>Mohamed Ali <span class="last">Lhioui</span></h1>
+          <p class="lead">Systèmes embarqués, robotique autonome et instrumentation industrielle, du capteur jusqu'à la supervision.</p>
+          <div class="status"><span class="led" aria-hidden="true"></span>Recherche un stage PFE de 4 à 6 mois dès février 2027</div>
+          <div class="actions">
+            <a class="btn primary" href="#contact">Me contacter</a>
+            <a class="btn" href="#projets">Voir les projets</a>
+            <a class="btn" href="cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+          </div>
+        </div>
+        <figure class="pinout">
+          <svg id="chip" viewBox="0 0 540 400" role="img" aria-labelledby="chipTitle">
+            <title id="chipTitle">Brochage du profil : 16 broches, une par compétence clé</title>
+          </svg>
+          <figcaption class="readout" id="pinReadout" aria-live="polite"><span>Brochage DIP-16 · survolez une broche</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="profil">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">1</span>
+        <h2>Description</h2>
+        <p>Étudiant en dernière année du cycle ingénieur, spécialisé en robotique, systèmes embarqués et intelligence artificielle.</p>
+      </div>
+      <div class="sheet">
+        <div>
+          <h3>Caractéristiques <small>1.1</small></h3>
+          <ul class="ticks">
+            <li>SLAM et navigation autonome sous ROS2 / Nav2</li>
+            <li>Programmation C/C++ de cartes électroniques</li>
+            <li>Étalonnage de transmetteurs de température (RTD Pt100)</li>
+            <li>Télégestion : contrôle à distance, supervision, alarmes GSM</li>
+            <li>Bus de terrain et série : CAN, I2C, SPI, UART, MQTT</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Applications <small>1.2</small></h3>
+          <ul class="ticks">
+            <li>Systèmes embarqués</li>
+            <li>IoT et objets connectés</li>
+            <li>Automatisme industriel</li>
+            <li>Edge AI</li>
+            <li>Industrie 4.0</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Description <small>1.3</small></h3>
+          <p>Étudiant en dernière année du cycle ingénieur en Génie Électrique &amp; Automatique à l'ENIG (Gabès), passionné par l'automatisation industrielle et les systèmes intelligents.</p>
+          <p>Deux stages terrain, en systèmes embarqués puis en instrumentation, et une série de projets qui vont du microcontrôleur au robot autonome.</p>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <caption class="label">Conditions recommandées</caption>
+          <tbody>
+            <tr><th scope="row">Type de stage</th><td>Projet de fin d'études (PFE)</td><td class="val">4–6 mois</td></tr>
+            <tr><th scope="row">Disponibilité</th><td>À partir de février 2027</td><td class="val">02/2027</td></tr>
+            <tr><th scope="row">Domaines</th><td>Embarqué, IoT, automatisme, Edge AI, Industrie 4.0</td><td class="val">5</td></tr>
+            <tr><th scope="row">Localisation</th><td>Zarzis, Tunisie</td><td class="val">TN</td></tr>
+            <tr><th scope="row">Langues</th><td>Français, anglais, arabe</td><td class="val">B2 · B2 · natif</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="parcours">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">2</span>
+        <h2>Parcours</h2>
+        <p>Formation et stages, relevés comme sur un analyseur logique. Déplacez le curseur sur le chronogramme pour lire chaque période.</p>
+      </div>
+
+      <div class="analyzer">
+        <div class="an-bar">
+          <span class="label">Analyseur · 3 voies</span>
+          <span class="label">Base de temps : 1 an / div</span>
+        </div>
+        <div class="an-scroll">
+          <svg id="timeline" viewBox="0 0 900 262" role="img" aria-label="Chronogramme du parcours de 2020 à 2027"></svg>
+        </div>
+        <div class="an-readout" id="anReadout" aria-live="polite">Curseur : <b>oct. 2026</b> · ENIG, cycle ingénieur (dernière année)</div>
+      </div>
+
+      <div class="roles">
+        <article class="role">
+          <div class="role-meta"><span class="label">Juil. – Août 2026</span><span class="label">Sfax, Tunisie</span></div>
+          <h3>Stagiaire en instrumentation</h3>
+          <p class="org">GEIS · Global Electricity Instrumentation Services</p>
+          <ul>
+            <li>Conception d'une boîte à résistances (simulateur de sonde RTD Pt100) pour le calibrage de transmetteurs de température.</li>
+            <li>Étalonnage de transmetteurs de température, contrôle d'instruments de mesure (pression, débit) et rédaction de rapports d'intervention.</li>
+            <li>Installation, câblage et maintenance d'équipements d'instrumentation et d'appareillage électrique.</li>
+          </ul>
+        </article>
+        <article class="role">
+          <div class="role-meta"><span class="label">Juil. – Août 2025</span><span class="label">Zarzis, Tunisie</span></div>
+          <h3>Stagiaire en systèmes embarqués</h3>
+          <p class="org">SINTWARE · Solutions Intégration Nouvelles Technologies</p>
+          <ul>
+            <li>Développement et intégration de solutions embarquées pour systèmes industriels et agricoles ; programmation C/C++ de cartes électroniques.</li>
+            <li>Tests, validation et régulation des systèmes ; découverte du cycle de fabrication de cartes (conception, soudure, validation).</li>
+            <li>Contribution à des systèmes de télégestion (contrôle à distance, supervision, alarmes via GSM).</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="edu">
+        <div>
+          <span class="label">Sept. 2024 – Présent</span>
+          <h4>Cycle ingénieur · Génie Électrique &amp; Automatique</h4>
+          <p>École Nationale d'Ingénieurs de Gabès (ENIG)</p>
+        </div>
+        <div>
+          <span class="label">Sept. 2020 – Juin 2024</span>
+          <h4>Cycle préparatoire · Physique &amp; Technologie (PT)</h4>
+          <p>Institut Préparatoire aux Études d'Ingénieurs de Gabès (IPEIG)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projets">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">3</span>
+        <h2>Circuits d'application</h2>
+        <p>Projets techniques réalisés, du capteur isolé jusqu'au robot autonome.</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filtrer les projets">
+        <button class="chip-btn" type="button" data-f="all" aria-pressed="true">Tous<span class="n">7</span></button>
+        <button class="chip-btn" type="button" data-f="robotique" aria-pressed="false">Robotique<span class="n">3</span></button>
+        <button class="chip-btn" type="button" data-f="iot" aria-pressed="false">IoT<span class="n">2</span></button>
+        <button class="chip-btn" type="button" data-f="embarque" aria-pressed="false">Embarqué<span class="n">2</span></button>
+        <button class="chip-btn" type="button" data-f="automatisme" aria-pressed="false">Automatisme<span class="n">2</span></button>
+      </div>
+
+      <div class="projects" id="projects">
+        <article class="card feature" data-cat="robotique">
+          <div class="body">
+            <span class="label">Robotique mobile · projet phare</span>
+            <h3>Robot autonome ROS2 + Raspberry Pi 5</h3>
+            <p>Cartographie et localisation simultanées (SLAM), navigation autonome avec Nav2 et évitement d'obstacles en temps réel. Simulation sous Gazebo avant déploiement sur la cible.</p>
+            <div class="tags"><span class="tag">ROS2</span><span class="tag">Nav2</span><span class="tag">SLAM</span><span class="tag">Gazebo</span><span class="tag">Raspberry Pi 5</span></div>
+          </div>
+          <div class="viz">
+            <canvas id="slam" aria-label="Animation : un robot balaie la pièce au lidar et construit sa carte"></canvas>
+            <span class="viz-cap">Simulation · balayage lidar et carte</span>
+          </div>
+        </article>
+
+        <article class="card" data-cat="robotique">
+          <div class="card-top"><span class="label">Robotique · ML</span></div>
+          <h3>Chess Coach Robot</h3>
+          <p>Bras robotisé qui démontre des coups d'échecs et assiste le joueur, piloté par des algorithmes de machine learning.</p>
+          <div class="tags"><span class="tag">Bras robotisé</span><span class="tag">Machine learning</span></div>
+        </article>
+
+        <article class="card" data-cat="iot automatisme">
+          <div class="card-top"><span class="label">IoT · Automatisation</span></div>
+          <h3>Smart House</h3>
+          <p>Ouverture de porte par RFID, éclairage commandé depuis un smartphone, ventilateur automatique selon la température et suivi solaire.</p>
+          <div class="tags"><span class="tag">RFID</span><span class="tag">Capteur T°</span><span class="tag">Smartphone</span></div>
+        </article>
+
+        <article class="card" data-cat="robotique iot">
+          <div class="card-top"><span class="label">Robotique · IoT</span></div>
+          <h3>Contrôle AlphaBot2</h3>
+          <p>Interface de commande temps réel et communication MQTT entre un PC et une Raspberry Pi embarquée sur le robot.</p>
+          <div class="tags"><span class="tag">Node-RED</span><span class="tag">MQTT</span><span class="tag">Raspberry Pi</span></div>
+        </article>
+
+        <article class="card" data-cat="embarque">
+          <div class="card-top"><span class="label">Embarqué · Sécurité</span></div>
+          <h3>Détection d'incendie distribuée</h3>
+          <p>Réseau de capteurs répartis communiquant sur bus I2C autour d'un microcontrôleur STM32.</p>
+          <div class="tags"><span class="tag">STM32</span><span class="tag">I2C</span><span class="tag">Réseau de capteurs</span></div>
+        </article>
+
+        <article class="card" data-cat="embarque">
+          <div class="card-top"><span class="label">Embarqué · Communication</span></div>
+          <h3>Communication infrarouge</h3>
+          <p>Liaison sans fil par infrarouge entre microcontrôleurs.</p>
+          <div class="tags"><span class="tag">ESP32</span><span class="tag">IR</span></div>
+        </article>
+
+        <article class="card" data-cat="automatisme">
+          <div class="card-top"><span class="label">Automatisme · Régulation</span></div>
+          <h3>Suiveur solaire &amp; régulateur de niveau</h3>
+          <p>Suivi de la lumière par capteurs et servomoteurs, et régulation automatique d'un niveau d'eau par capteurs et actionneurs.</p>
+          <div class="tags"><span class="tag">Servomoteurs</span><span class="tag">Capteurs</span><span class="tag">Actionneurs</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="competences">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">4</span>
+        <h2>Brochage détaillé</h2>
+        <p>Compétences techniques, langues et engagement associatif.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="table-scroll">
+          <table class="skill-table">
+            <tbody>
+              <tr><th scope="row">Langages</th><td><div class="pills"><span class="pill">Python</span><span class="pill">C</span><span class="pill">C++</span><span class="pill">VHDL</span><span class="pill">Java</span></div></td></tr>
+              <tr><th scope="row">Logiciels d'ingénierie</th><td><div class="pills"><span class="pill">MATLAB</span><span class="pill">Simulink</span><span class="pill">LabVIEW</span><span class="pill">Proteus</span><span class="pill">STM32CubeIDE</span><span class="pill">Arduino IDE</span><span class="pill">Node-RED</span></div></td></tr>
+              <tr><th scope="row">Protocoles</th><td><div class="pills"><span class="pill">MQTT</span><span class="pill">I2C</span><span class="pill">SPI</span><span class="pill">UART</span><span class="pill">CAN</span></div></td></tr>
+              <tr><th scope="row">Systèmes embarqués</th><td><div class="pills"><span class="pill">Arduino</span><span class="pill">ESP32</span><span class="pill">Raspberry Pi</span><span class="pill">STM32</span><span class="pill">FPGA</span></div></td></tr>
+              <tr><th scope="row">Robotique</th><td><div class="pills"><span class="pill">ROS2</span><span class="pill">Nav2</span><span class="pill">Gazebo</span></div></td></tr>
+              <tr><th scope="row">Instrumentation</th><td><div class="pills"><span class="pill">RTD Pt100</span><span class="pill">Étalonnage</span><span class="pill">Pression</span><span class="pill">Débit</span></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="side">
+          <h3>Langues · échelle CECRL</h3>
+          <div class="cefr">
+            <div class="cefr-row"><span>Français</span><div class="cells" aria-label="Niveau B2"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><span class="lvl">B2</span></div>
+            <div class="cefr-row"><span>Anglais</span><div class="cells" aria-label="Niveau B2"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><span class="lvl">B2</span></div>
+            <div class="cefr-row"><span>Arabe</span><div class="cells" aria-label="Langue maternelle"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="lvl">Natif</span></div>
+            <div class="scale" aria-hidden="true"><span></span><div class="cells"><i>A1</i><i>A2</i><i>B1</i><i>B2</i><i>C1</i><i>C2</i></div><span></span></div>
+          </div>
+          <h3>Engagement</h3>
+          <ul class="engage">
+            <li><strong>Chair, IEEE RAS ENIG Student Branch Chapter</strong><span>Robotics and Automation Society, branche étudiante de l'ENIG</span></li>
+            <li><strong>Organisateur d'un workshop Arduino</strong><span>Atelier de prise en main à l'ENIG</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="sec-num">5 · Contact</span>
+      <h2>Un PFE en <span>embarqué</span> ou en automatisme ?</h2>
+      <p class="intro">Disponible dès février 2027 pour un stage de fin d'études de 4 à 6 mois. Écrivez-moi, je réponds rapidement.</p>
+      <div class="links">
+        <div class="link-row"><span class="label k">E-mail</span><div class="v-group"><a class="v" id="email" href="mailto:medalilhioui6@gmail.com">medalilhioui6@gmail.com</a><button class="copy" type="button" id="copyBtn">Copier</button></div></div>
+        <div class="link-row"><span class="label k">Téléphone</span><a class="v" href="tel:+21650133356">+216 50 133 356</a></div>
+        <div class="link-row"><span class="label k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/mohamed-ali-lhioui-a7410432b" target="_blank" rel="noopener">mohamed-ali-lhioui ↗</a></div>
+        <div class="link-row"><span class="label k">GitHub</span><a class="v" href="https://github.com/Dalii10" target="_blank" rel="noopener">Dalii10 ↗</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">MAL-27 · Fiche technique · Rév. octobre 2026</span>
+    <span class="label">Zarzis, Tunisie</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function el(tag, attrs, parent, text) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+
+  /* ---------- Theme ---------- */
+  var root = document.documentElement, themeBtn = document.getElementById("themeBtn");
+  try { var saved = localStorage.getItem("mal-theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  function isDark() {
+    var t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function syncThemeLabel() { themeBtn.textContent = isDark() ? "Mode clair" : "Mode sombre"; }
+  themeBtn.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("mal-theme", next); } catch (e) {}
+    syncThemeLabel();
+  });
+  syncThemeLabel();
+
+  /* ---------- Pinout (DIP-16: pins 1–8 down the left, 9–16 up the right) ---------- */
+  var left = [
+    ["Python", "Langage · scripts, IA"], ["C / C++", "Langage · firmware embarqué"], ["VHDL", "Langage · FPGA"],
+    ["MATLAB", "Calcul et traitement du signal"], ["Simulink", "Modélisation et commande"], ["LabVIEW", "Instrumentation et acquisition"],
+    ["ROS2", "Robotique · Nav2, Gazebo"], ["Node-RED", "Flux IoT et supervision"]
+  ];
+  var right = [ /* listed top to bottom: pins 16 → 9 */
+    ["Raspberry Pi", "Carte · Linux embarqué"], ["STM32", "Microcontrôleur · STM32CubeIDE"], ["ESP32", "Microcontrôleur · Wi-Fi / BLE"],
+    ["FPGA", "Logique programmable"], ["MQTT", "Protocole IoT publish/subscribe"], ["CAN", "Bus de terrain"],
+    ["SPI · UART", "Liaisons série"], ["I2C", "Bus capteurs"]
+  ];
+  var chip = document.getElementById("chip"), readout = document.getElementById("pinReadout");
+  var bx = 190, bw = 160, by = 24, bh = 352, top = 58, pitch = 41;
+  el("rect", { x: bx, y: by, width: bw, height: bh, rx: 6, fill: "var(--chip)" }, chip);
+  el("circle", { cx: bx + bw / 2, cy: by, r: 13, fill: "var(--bg)" }, chip);
+  el("circle", { cx: bx + 16, cy: by + 22, r: 4, fill: "var(--chip-ink)", opacity: .35 }, chip);
+  el("text", { x: bx + bw / 2, y: 178, "text-anchor": "middle", fill: "var(--chip-ink)", style: "font:700 26px var(--f-display);font-stretch:75%;letter-spacing:.06em" }, chip, "MAL-27");
+  el("text", { x: bx + bw / 2, y: 202, "text-anchor": "middle", fill: "var(--chip-ink)", opacity: .7, style: "font:500 10px var(--f-mono);letter-spacing:.14em" }, chip, "GEA · ENIG");
+  el("text", { x: bx + bw / 2, y: 222, "text-anchor": "middle", fill: "var(--copper)", style: "font:600 10px var(--f-mono);letter-spacing:.14em" }, chip, "TN · 2027");
+
+  var pins = [];
+  function addPin(side, i, data) {
+    var y = top + i * pitch, num = side === "L" ? i + 1 : 16 - i;
+    var g = el("g", { class: "pin", tabindex: 0, role: "button", "aria-label": "Broche " + num + " : " + data[0] + ", " + data[1] }, chip);
+    g.style.setProperty("--d", (reduce ? 0 : 0.25 + num * 0.06) + "s");
+    if (side === "L") {
+      el("line", { class: "trace", x1: 120, y1: y, x2: bx - 22, y2: y }, g);
+      el("rect", { class: "leg", x: bx - 22, y: y - 6, width: 22, height: 12, rx: 1.5 }, g);
+      el("text", { class: "name", x: 112, y: y + 4.5, "text-anchor": "end" }, g, data[0]);
+      el("text", { class: "num", x: bx + 9, y: y + 3.5 }, g, String(num).padStart(2, "0"));
+    } else {
+      el("line", { class: "trace", x1: bx + bw + 22, y1: y, x2: 420, y2: y }, g);
+      el("rect", { class: "leg", x: bx + bw, y: y - 6, width: 22, height: 12, rx: 1.5 }, g);
+      el("text", { class: "name", x: 428, y: y + 4.5 }, g, data[0]);
+      el("text", { class: "num", x: bx + bw - 9, y: y + 3.5, "text-anchor": "end" }, g, String(num).padStart(2, "0"));
+    }
+    el("rect", { x: side === "L" ? 0 : bx + bw - 24, y: y - pitch / 2, width: side === "L" ? bx + 24 : 540 - (bx + bw - 24), height: pitch, fill: "transparent" }, g);
+    function show() {
+      pins.forEach(function (p) { p.classList.remove("on"); });
+      g.classList.add("on");
+      readout.innerHTML = "<span>Broche <b>" + String(num).padStart(2, "0") + "</b></span><span><b>" + data[0] + "</b> · " + data[1] + "</span>";
+    }
+    g.addEventListener("mouseenter", show);
+    g.addEventListener("focus", show);
+    g.addEventListener("click", show);
+    pins.push(g);
+  }
+  left.forEach(function (d, i) { addPin("L", i, d); });
+  right.forEach(function (d, i) { addPin("R", i, d); });
+
+  /* ---------- Logic analyzer timeline ---------- */
+  var MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  function M(y, m) { return (y - 2020) * 12 + (m - 7); } // months since July 2020
+  var SPAN = M(2027, 9), L = 130, W = 750, TODAY = M(2026, 10);
+  function X(m) { return L + (m / SPAN) * W; }
+  function fmt(m) { var t = m + 6; return MONTHS[((t % 12) + 12) % 12] + " " + (2020 + Math.floor(t / 12)); }
+
+  var channels = [
+    { name: "CLK", base: 62, clk: true },
+    { name: "FORMATION", base: 132, segs: [
+      { s: M(2020, 9), e: M(2024, 6), label: "IPEIG · prépa PT", info: "IPEIG, cycle préparatoire Physique & Technologie" },
+      { s: M(2024, 9), e: TODAY, label: "ENIG · cycle ingénieur GEA", info: "ENIG, cycle ingénieur Génie Électrique & Automatique" }
+    ], dashed: [{ s: TODAY, e: M(2027, 7) }] },
+    { name: "STAGES", base: 202, segs: [
+      { s: M(2025, 7), e: M(2025, 9), label: "SINTWARE", info: "SINTWARE, stage en systèmes embarqués (Zarzis)" },
+      { s: M(2026, 7), e: M(2026, 9), label: "GEIS", info: "GEIS, stage en instrumentation (Sfax)" }
+    ], dashed: [{ s: M(2027, 2), e: M(2027, 8), label: "PFE ?", info: "Stage PFE recherché, 4 à 6 mois dès février 2027" }] }
+  ];
+  var tl = document.getElementById("timeline"), HIGH = 30;
+  var axis = el("g", { class: "axis" }, tl);
+  for (var yr = 2021; yr <= 2027; yr++) {
+    var ax = X(M(yr, 1));
+    el("line", { x1: ax, y1: 20, x2: ax, y2: 228 }, axis);
+    el("text", { x: ax, y: 248, "text-anchor": "middle" }, axis, yr);
+  }
+  channels.forEach(function (ch) {
+    el("text", { class: "ch-label", x: 16, y: ch.base - HIGH / 2 + 4 }, tl, ch.name);
+    var d = "M" + L + " " + ch.base, segs = ch.segs || [];
+    if (ch.clk) {
+      var level = 0, x0 = L;
+      d = "M" + L + " " + ch.base;
+      for (var y2 = 2021; y2 <= 2027; y2++) {
+        var xx = X(M(y2, 1));
+        d += " H" + xx + " V" + (level ? ch.base : ch.base - HIGH);
+        level = 1 - level;
+      }
+      d += " H" + (L + W);
+      el("path", { class: "wave clk", d: d }, tl);
+      return;
+    }
+    segs.forEach(function (s) {
+      d += " H" + X(s.s) + " V" + (ch.base - HIGH) + " H" + X(s.e) + " V" + ch.base;
+      el("text", { class: "seg-label", x: (X(s.s) + X(s.e)) / 2, y: ch.base - HIGH - 8, "text-anchor": "middle" }, tl, s.label);
+    });
+    d += " H" + (L + W);
+    el("path", { class: "wave", d: d }, tl);
+    (ch.dashed || []).forEach(function (s) {
+      el("path", { class: "wave dash", d: "M" + X(s.s) + " " + ch.base + " V" + (ch.base - HIGH) + " H" + X(s.e) + " V" + ch.base }, tl);
+      if (s.label) el("text", { class: "seg-label alt", x: (X(s.s) + X(s.e)) / 2, y: ch.base - HIGH - 8, "text-anchor": "middle" }, tl, s.label);
+    });
+  });
+  var today = el("g", { class: "today" }, tl);
+  el("line", { x1: X(TODAY), y1: 14, x2: X(TODAY), y2: 228 }, today);
+  el("text", { x: X(TODAY) - 4, y: 12, "text-anchor": "end" }, today, "AUJOURD'HUI");
+  var cursor = el("line", { class: "cursor", x1: 0, y1: 20, x2: 0, y2: 228, visibility: "hidden" }, tl);
+
+  var anReadout = document.getElementById("anReadout");
+  function readAt(m) {
+    var hits = [];
+    channels.forEach(function (ch) {
+      (ch.segs || []).concat(ch.dashed || []).forEach(function (s) {
+        if (m >= s.s && m < s.e) hits.push(s.info || (ch.name === "FORMATION" ? "ENIG, cycle ingénieur (projection)" : ""));
+      });
+    });
+    hits = hits.filter(function (h, i) { return h && hits.indexOf(h) === i; });
+    anReadout.innerHTML = "Curseur : <b>" + fmt(m) + "</b> · " + (hits.length ? hits.join(" · ") : "aucune activité relevée");
+  }
+  function onMove(evt) {
+    var pt = tl.createSVGPoint(), src = evt.touches ? evt.touches[0] : evt;
+    pt.x = src.clientX; pt.y = src.clientY;
+    var p = pt.matrixTransform(tl.getScreenCTM().inverse());
+    var m = Math.max(0, Math.min(SPAN - 1, Math.floor(((p.x - L) / W) * SPAN)));
+    if (p.x < L) return;
+    cursor.setAttribute("x1", X(m + .5)); cursor.setAttribute("x2", X(m + .5));
+    cursor.setAttribute("visibility", "visible");
+    readAt(m);
+  }
+  tl.addEventListener("mousemove", onMove);
+  tl.addEventListener("touchmove", onMove, { passive: true });
+  tl.addEventListener("mouseleave", function () { cursor.setAttribute("visibility", "hidden"); readAt(TODAY); });
+  readAt(TODAY);
+
+  /* ---------- Project filters ---------- */
+  var chips = document.querySelectorAll(".chip-btn"), cards = document.querySelectorAll("#projects .card");
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () {
+      var f = c.getAttribute("data-f");
+      chips.forEach(function (o) { o.setAttribute("aria-pressed", String(o === c)); });
+      cards.forEach(function (card) {
+        card.hidden = f !== "all" && card.getAttribute("data-cat").split(" ").indexOf(f) === -1;
+      });
+    });
+  });
+
+  /* ---------- Copy e-mail ---------- */
+  var copyBtn = document.getElementById("copyBtn"), email = document.getElementById("email");
+  copyBtn.addEventListener("click", function () {
+    function done() { copyBtn.textContent = "Copié"; setTimeout(function () { copyBtn.textContent = "Copier"; }, 1600); }
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(email);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      copyBtn.textContent = "Ctrl+C";
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email.textContent).then(done, fallback);
+    } else fallback();
+  });
+
+  /* ---------- SLAM canvas: lidar sweep building an occupancy map ---------- */
+  var cv = document.getElementById("slam");
+  if (cv && cv.getContext) {
+    var ctx = cv.getContext("2d"), RW = 300, RH = 180;
+    var walls = [[4, 4, 296, 4], [296, 4, 296, 176], [296, 176, 4, 176], [4, 176, 4, 4], [4, 112, 30, 112], [262, 4, 262, 26]];
+    function box(x, y, w, h) { walls.push([x, y, x + w, y], [x + w, y, x + w, y + h], [x + w, y + h, x, y + h], [x, y + h, x, y]); }
+    box(85, 60, 40, 26); box(175, 62, 40, 24); box(140, 158, 24, 18);
+    function cast(ox, oy, a) {
+      var dx = Math.cos(a), dy = Math.sin(a), best = 400;
+      for (var i = 0; i < walls.length; i++) {
+        var w = walls[i], ex = w[2] - w[0], ey = w[3] - w[1], den = dx * ey - dy * ex;
+        if (Math.abs(den) < 1e-9) continue;
+        var t = ((w[0] - ox) * ey - (w[1] - oy) * ex) / den, u = ((w[0] - ox) * dy - (w[1] - oy) * dx) / den;
+        if (t > 0 && u >= 0 && u <= 1 && t < best) best = t;
+      }
+      return best;
+    }
+    function pose(t) { return { x: 150 + 100 * Math.cos(t), y: 90 + 55 * Math.sin(t), h: Math.atan2(55 * Math.cos(t), -100 * Math.sin(t)) }; }
+    var map = {}, RANGE = 110, RAYS = 120;
+    function scan(p, store, rays) {
+      var out = [];
+      for (var r = 0; r < RAYS; r++) {
+        var a = p.h + (r / RAYS) * Math.PI * 2, d = cast(p.x, p.y, a);
+        if (d > RANGE) { if (rays) out.push([a, RANGE, false]); continue; }
+        if (store) map[Math.round((p.x + Math.cos(a) * d) / 2) + "," + Math.round((p.y + Math.sin(a) * d) / 2)] = 1;
+        if (rays) out.push([a, d, true]);
+      }
+      return out;
+    }
+    for (var k = 0; k < 90; k++) scan(pose(k / 90 * Math.PI * 2), true, false);
+    var css = getComputedStyle(root), t0 = 0, raf = 0, visible = true;
+    function color(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
+    function size() {
+      var r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr));
+    }
+    function draw(t) {
+      var cw = cv.width, ch = cv.height, s = Math.min(cw / RW, ch / RH), ox = (cw - RW * s) / 2, oy = (ch - RH * s) / 2;
+      var ink = color("--chip-ink"), copper = color("--copper"), led = color("--led");
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cw, ch);
+      ctx.setTransform(s, 0, 0, s, ox, oy);
+      ctx.globalAlpha = .08; ctx.strokeStyle = ink; ctx.lineWidth = .5 / s * 2;
+      for (var gx = 0; gx <= RW; gx += 20) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, RH); ctx.stroke(); }
+      for (var gy = 0; gy <= RH; gy += 20) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(RW, gy); ctx.stroke(); }
+      ctx.globalAlpha = .55; ctx.fillStyle = ink;
+      for (var key in map) { var c = key.split(","); ctx.fillRect(c[0] * 2 - .9, c[1] * 2 - .9, 1.8, 1.8); }
+      var p = pose(t), rays = scan(p, false, true);
+      ctx.globalAlpha = .9; ctx.fillStyle = copper;
+      ctx.beginPath();
+      for (var i = 0; i < rays.length; i++) {
+        var ry = rays[i]; if (!ry[2]) continue;
+        ctx.rect(p.x + Math.cos(ry[0]) * ry[1] - 1.2, p.y + Math.sin(ry[0]) * ry[1] - 1.2, 2.4, 2.4);
+      }
+      ctx.fill();
+      ctx.globalAlpha = .13; ctx.strokeStyle = copper; ctx.lineWidth = .5;
+      ctx.beginPath();
+      for (var j = 0; j < rays.length; j += 3) { ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + Math.cos(rays[j][0]) * rays[j][1], p.y + Math.sin(rays[j][0]) * rays[j][1]); }
+      ctx.stroke();
+      ctx.globalAlpha = .5; ctx.strokeStyle = led; ctx.setLineDash([2, 3]); ctx.lineWidth = .7;
+      ctx.beginPath(); ctx.ellipse(150, 90, 100, 55, 0, t, t + 1.2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.globalAlpha = 1; ctx.fillStyle = led;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 5.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = color("--chip"); ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + Math.cos(p.h) * 5.5, p.y + Math.sin(p.h) * 5.5); ctx.stroke();
+    }
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      draw(((ts - t0) / 1000) * 0.32 + 0.6);
+      if (visible && !reduce) raf = requestAnimationFrame(frame);
+    }
+    size(); draw(0.6);
+    window.addEventListener("resize", function () { size(); draw(0.6); });
+    if (!reduce) {
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) {
+          visible = es[0].isIntersecting;
+          cancelAnimationFrame(raf);
+          if (visible) raf = requestAnimationFrame(frame);
+        }).observe(cv);
+      } else raf = requestAnimationFrame(frame);
+    }
+    if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { draw(0.6); });
+    themeBtn.addEventListener("click", function () { if (reduce || !visible) draw(0.6); });
+  }
+})();
+</script>
+</body>
+</html>
